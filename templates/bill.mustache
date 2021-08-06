@@ -1,0 +1,19 @@
+{{! template for a bill }}
+{{! The items of the bill are rendered in the same template as well }}
+<div>
+<p style='margin:auto;text-align:center; font-weight:bold'> Bill {{ id }}</p>
+<p class='w3-small'>Date:{{ date }}</p>
+<p></p>
+<table>
+{{! called for each item }}
+{{#items}}
+    <tr>
+        <td width='70%'>{{name}}</td>
+        <td width='30%' align='right'>{{amount}}</td>
+    </tr>
+{{/items}}
+{{! the total row }}
+<tr style='font-weight:bold;'><td style='padding-top:1em'>Total</td>
+        <td style='padding-top:1em'>&#8377; {{total}}</td>
+</table>
+</div>

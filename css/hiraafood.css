@@ -1,0 +1,97 @@
+button {
+  background-color: #FFCC00;
+  border-radius: 8px;
+}
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1
+}
+
+.ui-dialog .ui-dialog-content {
+  padding: 0;
+}​
+
+.material-icons.md-light { 
+    color: rgba(255, 255, 255, 1); 
+}
+.material-icons.md-light.md-inactive { 
+  color: rgba(255, 255, 255, 0.3); 
+}
+
+
+
+.w3-bar {
+  background-color: #000000;
+}
+.w3-bar-item {
+  color: #FFFFFF;
+}
+.w3-display-middle {
+  background-color: #F7FD04;
+  color: #FC5404;
+  font-size: 4em;
+  margin: auto;
+  text-align: center;
+
+}
+
+.w3-circle {
+  width: 80px;
+  height: 80px;
+}
+
+.submit-button {
+    background: #0066A2;
+    color: white;
+    border-style: outset;
+    border-color: #0066A2;
+    height: 50px;
+    width: 140px;
+    font: bold 15px arial, sans-serif;
+    text-shadow:none;
+    border-radius: 0.7em;
+    margin: 0 auto;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+input[disabled] {
+    background: #AAAAAA;
+    border-color: #AAAAAA;
+
+
+}
+
+.header {
+    padding: 60px;
+    text-align: center;
+    background: #F7FD04;
+    color: #FC5404;
+    font-size: 30px;
+  }
+
+  .navbar {
+    overflow: hidden; /* Hide overflow */
+    background-color: #333; /* Dark background color */
+  }
+  /* Style the navigation bar links */
+.navbar a {
+    float: left; /* Make sure that the links stay side-by-side */
+    display: block; /* Change the display to block, for responsive reasons (see below) */
+    color: white; /* White text color */
+    text-align: center; /* Center the text */
+    padding: 14px 20px; /* Add some padding */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  /* Right-aligned link */
+  .navbar a.right {
+    float: right; /* Float a link to the right */
+  }
+  
+  /* Change color on hover/mouse-over */
+  .navbar a:hover {
+    background-color: #ddd; /* Grey background color */
+    color: black; /* Black text color */
+  }
+

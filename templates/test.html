@@ -1,0 +1,57 @@
+<!DOCTYPE html5>
+<head>
+    <base href='..'>
+    <title>Hiraafood:Template</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+<div id='test'  style='width:80%'>
+
+<script type='module'>
+    import Item from './js/item.js'
+    import Bill from './js/bill.js'
+    import Address from './js/address.js'
+    import AddressGroup from './js/address-group.js'
+/*
+    var item = new Item({
+        'sku': '100',
+        'name'      : 'Long Name',
+        'short_name': 'Item Name',
+        'long_description': 'long_description',
+        'short_description': 'short_description',
+        'price': '5.00',
+        'ratings': 4,
+        'categories': '',
+        'image' : 'item-0005.png'
+    })
+    var now = new Date()
+    var bill = new Bill({
+        'id': '1234',
+        'date': now,
+        'total': 350,
+        'bill_items': [
+        {'name': 'item 1', 'amount': 10},
+        {'name': 'item 2', 'amount': 100},
+        {'name': 'tax @7%', 'amount': 20},
+        {'name': 'puja discount', 'amount': 40}
+        ]
+    })
+*/
+    var address1 = {'owner':'guest', 'name':'home1', 'line1':'line1', 'city':'city1', 'pin':'pin1'}
+    var address2 = {'owner':'guest', 'name':'home2', 'line1':'line1', 'city':'city2', 'pin':'pin2'}
+    var addressGroup = new AddressGroup({'addresses':[address1, address2]})
+    addressGroup.render($('#test'))
+</script>
+</body>
+</html>

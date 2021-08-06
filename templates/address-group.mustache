@@ -1,0 +1,30 @@
+{{! will create radio button for same group for each address }}
+{{! the input data has 'group' and list of 'addresses'}}
+{{! for each radio button the tooltip shows the address details}}
+
+<p class='w3-panel w3-xlarge w3-yellow'>
+        <img src='food-delivery.png' width='64px' height='64px'>
+        <b>Where</b> would you like the food?
+</p>
+<div id='choices' style='padding-left:4em'>
+{{#addresses}}
+    {{! one of the address has to marked as checked }}
+    {{! id of the radio button identifies the address within the group}}
+    <input type='radio' name={{group_name}} id={{name}} {{ checked }}>
+    <label for={{name}} class='w3-tooltip'>{{name}}
+        {{! address details as a tooltip }}
+        <span class='w3-text w3-black w3-text-white'
+            style='padding-left:2em;padding-right:1em'>
+          {{ line1 }}
+          {{ line2 }}
+          ;
+          {{ city }} 
+          {{ state }} {{pin}}
+          {{ phone }}
+        </span>
+    </label>
+    <br>
+{{/addresses}}
+
+<button id='add-new-address' style='margin-top:2em;'>Add new address</button>
+</div>

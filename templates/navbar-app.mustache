@@ -1,0 +1,29 @@
+{{! this navbar template will be loaded to every page of the application }}
+{{! data {title}}
+<div class='w3-bar'>
+    <div id='logo'  class='w3-bar-item'>Logo</div>
+    <div id='title' class='w3-bar-item'>{{ title }}</div>
+    {{! about Us, content, setting }}
+    <div class='w3-dropdown-hover w3-right w3-black' style="padding-top:8px;padding-left:40px;padding-right:20px;">
+        <span class="material-icons">more_vert</span>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-blue" 
+            style='margin-left:-60px;'>
+            <button id='contact'  class="w3-bar-item w3-button">Contact</a>
+            <button id='about'    class="w3-bar-item w3-button">About Us</a>
+            <button id='settings' class="w3-bar-item w3-button">Settings</a>
+       </div>
+    </div>
+    {{! will set action handlers in dynamically }}
+    <div id='user' class='w3-dropdown-hover w3-right'>
+        <img id='user-image' src='no-user.png' width='24px' height='24px' 
+            style="border-radius:50%;position:relative;top:8px;">
+        <div class='w3-dropdown-content w3-bar-block w3-card-4 w3-blue' 
+            style='margin-left:-60px;'>
+            <button id='user-login'      class='w3-bar-item w3-button'>Login</button>
+            <button id='user-logout'     class='w3-bar-item w3-button'>Logout</button>
+            <button id='user-profile'    class='w3-bar-item w3-button'>Profile</button>
+        </div>
+    </div>
+
+     
+</div>

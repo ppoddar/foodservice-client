@@ -1,0 +1,25 @@
+<!DOCTYPE html5>
+<html>
+<head>
+  <html lang="en-US">
+    <title>Create Order</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='./js/hiraafood.js'></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/hiraafood.css"/>
+</head>
+<body>
+    <button id='create-order' class="w3-btn w3-blue">Order</button>
+
+    <div id='login-dialog' style='width:200px;height:200px'></div>
+    <script>
+        
+        data = {'lineitems':[
+            {'item':'0001', 'quantity':10}
+        ]}
+        $('#create-order').on('click', create_order.bind(null,data))
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{{! template for a cart }}
+{{! the header shows the order }}
+{{! order, lineitems[], total }}
+
+<div class='w3-bar'>
+    <div id='order-id' class='w3-bar-item'>Order {{order}}</div>
+</div>
+
+<table id='cart-items' class="w3-table-all" style="width:100%;">
+{{! each row is a lineitem }}
+{{#lineitems}}
+    {{! each lineitem is rendered. It should better be domne with partials }}
+    {{! but could not figure it out yet :( )}}
+    <tr>
+    <td width='10%' id='quantity'>{{quantity}}</td>
+    <td width='60%' id='name' class='w3-small'>{{name}}</td>
+    <td width='20%' id='cost' >{{cost}}</td>
+    <td width='10%' >
+    {{! id has sku to identify each row to add action handler as well as lineitem-edit class}}
+    <span id='{{sku}}' class='material-icons w3-small lineitem-edit'>edit</span></td>
+    </tr>
+{{/lineitems}}
+<tr><td colspan=2><strong>Total</strong></td>
+    <td colspan=2><strong>{{total}}</strong></td><tr>
+</tr>
+</table>
+
+<span class="w3-tiny w3-text-grey"><sup>*</sup><strong>exclusive of taxes and discount</strong></span>
+
+{{! controls }}
+
+    <div style='margin:2em;''>
+        <span> <button id='discount-button'>Apply Discount</button></span>
+        <span id='discount-code' class='w3-text-green'>
+        <strong>
+            {{! will be filled in the script }}
+        </strong></span>
+    </div>
+
+    <div style='margin:auto;width:100%;text-align: center;padding-top: 2em;'>
+        <button id='checkout-button'>checkout</button>
+    </div>
+</div>

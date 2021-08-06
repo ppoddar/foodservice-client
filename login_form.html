@@ -1,0 +1,23 @@
+<!DOCTYPE html5>
+<html>
+<head>
+
+</head>
+<body>
+  <p><span>User id</span><input id='username' name='username' type='text'>
+  <p><span>Password</span><input id='password' name='password' type='password'>
+
+  <button id='login-button'>Login</button>
+
+  <script>
+    $('#login-button').on('click', function(e) {
+        login($('#username').text(), $('#password').text())
+      }
+    )
+    
+  </script>
+  
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html5>
+<head>
+    <title>Hiraafood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+</head>
+<body>
+    <div id='navbar'></div>
+    <div id='address-group'></div>
+    <div id='delivery-time'></div>
+    <button id='next-step'>Next (payment)</button>
+
+    <script type='module'>
+        import User from         './js/user.js'
+        import Bill from         './js/bill.js'
+        import AddressGroup from './js/address-group.js'
+        import DeliveryTime from './js/delivery-time.js'
+        import Delivery from './js/delivery.js'
+
+        loadTemplate($('#navbar'), 'templates/navbar-page.mustache', {'title':'Delivery'}, 
+            function() {
+                var user = User.instance()
+                var bill = Bill.fromStorage()
+                
+                user.render($('#user'))
+                user.getAddresses(function(addressGroup) {
+                    addressGroup.render($('#address-group'))
+                    var deliveryTime = new DeliveryTime()          
+                    deliveryTime.render($('#delivery-time'))
+                    $('#next-step').on('click', function() {
+                        var delivery = new Delivery({
+                            'address': addressGroup.getSelectedAddress(),
+                            'time'   : deliveryTime.getDeliveryTime(),
+                            'bill'   : bill
+                        })
+                        console.log(`delivery: ${JSON.stringify(delivery)}`)
+                        delivery.save()
+                        delivery.render(function() {
+                             window.location = './payment.html'
+                        })
+                    })
+            })
+        })
+        
+        
+    </script>
+    
+</body>

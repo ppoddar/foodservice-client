@@ -1,0 +1,130 @@
+<!DOCTYPE html5>
+<html>
+<head>
+  <html lang="en-US">
+    <title>Create Item</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/trial-styles.css"/>
+
+</head>
+<body>
+  <div class='w3-panel w3-yellow' >
+    <h1>Manage Menu</h1>
+  </div>
+
+    <div class='w3-table w3-padding'>
+      <div class="w3-row">
+        <div class='w3-col m2 w3-bold'>SKU</div>
+        <div class="w3-col m3">
+          <input type="text" id="item-sku" name="sku" size='12'>
+        </div>
+      </div>
+      <div class="w3-row">
+        <div class='w3-col m2 w3-bold'>Name</div>
+        <div class="w3-col m3">
+          <input type="text" id="item-name" name="name" size='40'>
+        </div>
+      </div>
+      <div class="w3-row">
+        <div class='w3-col m2 w3-bold'>Price</div>
+        <div class="w3-col m3">
+          <input type="number" id="item-price" name="price" size='8'>
+        </div>
+      </div>
+      <button id='action-create-item' class="w3-btn submit-button">
+        Create Item 
+      </button>
+    </div>
+
+<hr>
+
+<div class="w3-row">
+    <div class="w3-col m4 l3">
+      <label for="image">Select an image file </label><br>
+    </div>
+    <div class="w3-col m4 l3">
+      <input type="file" id="image" 
+        name="image" 
+        accept="image/*"
+        multiple="false">
+    </div>
+</div>
+<div class="w3-row">
+</div>
+
+<div class="w3-row">
+  <div class="w3-col m8  w3-border">
+    <img id='imagePreview' width="256" height="256">
+  </div>
+  <div class="w3-col m3">
+    <button id='action-upload-image' class="w3-btn submit-button">
+        Upload Item Image
+    </button>  
+  </div>
+</div>  
+      
+
+<!-- ===================================================== -->
+
+<script>
+  $('#action-create-item').on('click', function(e){
+    console.log('----------------------- create-item-form onSubmit() ')
+    if (validateForm()) {
+      // call server
+    }
+    e.preventDefault()
+  })
+  function validateForm() {
+    let form = $("#create-item-form")
+    let sku   = form["sku"].value;
+    let name  = form["name"].value;
+    let price = form["price"].value;
+    if (sku == "") {
+        alert("[SKU] must be filled out");
+        return false;
+    }
+    
+    if (name == "") {
+        alert("[name] must be filled out");
+        return false;
+    }
+    if (price == "") {
+        alert("[price] must be filled out");
+        return false;
+    }
+    return true;
+  }
+  const MAX_FILE_SIZE_LIMIT= 1024*1000*1
+
+  function validateImageFile() {
+    imageFile = document.getElementById('image')
+    upload    = document.getElementById('upload-image')
+    if (imageFile.files.length <= 0) {
+      return false
+    }
+      
+    file_selected = imageFile.files.item(0)
+    file_name = file_selected.name
+    file_size = file_selected.size
+      
+    if (file_size > MAX_FILE_SIZE_LIMIT) {
+      alert(`Chosen file ${file_name} size ${file_size} exceeds ${MAX_FILE_SIZE_LIMIT}`)
+      upload.disabled = true
+      return false;
+    } 
+
+    document.getElementById('imagePreview').src = URL.createObjectURL(file_selected)
+
+    upload.disabled = false
+    return true
+    
+    //alert('image ' + file_name + ' ' + file_url + ' ' + file_size + ' bytes ')
+  }
+</script>
+</body>
+
+</html>
+
+<form id='upload-image-file' enctype="multipart/form-data">

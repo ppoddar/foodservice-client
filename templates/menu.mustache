@@ -1,0 +1,23 @@
+{{! menu section shows a bar with categories and search }}
+{{! and a list of items                                 }}
+<div class='w3-bar'>
+    {{! a bar for category-wise navigation and seacrh }}
+    <div id='menu-header' class="w3-dropdown-hover w3-bar-item w3-black" style="background-color:#000000 ;">
+        <div class='w3-bar-item'>
+            <label for='category'>Category:</label>
+            <span id='category-option'>All</span>
+        </div>    
+        <div class="w3-dropdown-content w3-bar-block w3-border">
+            <div id='category-selection-dropdown' class='w3-bar w3-light-grey' >
+                <!-- populated by script -->
+            </div>
+        </div>
+    </div>
+    <div class='w3-bar-item w3-right'>
+        <input type='text' maxlength="20" size="14">
+        <span id='item-search' class="material-icons">search</span> 
+    </div>
+</div>
+<div id='menu-items'>
+<!-- will be dynamically populated from server response -->
+</div>

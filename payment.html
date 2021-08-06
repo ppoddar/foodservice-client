@@ -1,0 +1,59 @@
+<!DOCTYPE html5>
+<head>
+    <title>Hiraafood:Payment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/hiraafood.css"/>
+    <script src="https://checkout.razorpay.com/v1/razorpay.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</head>
+<body>
+    <button id="pay-button">Pay</button>
+
+    <script type="module">
+        import User     from './js/user.js'
+        import Delivery from './js/delivery.js'
+        
+        $('#pay-button').on('click', openRanzorPay)
+
+        function openRanzorPay() {
+            var delivery = Delivery.fromStorage()
+            var bill    = delivery.bill
+            var address = delivery.address
+            var customer = User.instance()
+            var options = {
+                'key':'rzp_test_5GjkKK47NrE4b0',
+                'amount': bill.total * 100,
+                'currency': 'INR',
+                "name": "hiraafood",
+                "description": "",
+                "image": "images/logo.png",// COMPANY LOGO
+                'order_id': bill.payment_id,
+                "handler": function (response) {
+                    // called afetr Transaction is complete 
+                    console.log(`Razorpay payment id: ${response.razorpay_payment_id}`)
+                    console.log(`Razorpay order id  : ${response.razorpay_order_id}`)
+                    console.log(`Razorpay signature : ${response.razorpay_signature}`)
+                },
+                "prefill": {
+                    "name" : `${customer.firstname} ${customer.lastname}`, // pass customer name
+                    "email": customer.email,// customer email
+                    "contact": customer.phone //customer phone no.
+                },
+                "notes": {
+                    "address": address //customer address 
+                },
+                "theme": {
+                    "color": "#15b8f3" // screen color
+                }
+            }
+
+            var rzp = new Razorpay(options)
+            rzp.open()
+        }
+    </script>
+</body>

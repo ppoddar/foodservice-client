@@ -1,0 +1,27 @@
+{{! item as appear in menu list }}
+{{! two divs side by side. In left div: imgage, ratings, order button}}
+{{! two divs side by side. In right div: name, price}}
+
+<div style="width: 100%; padding-left:8px; overflow: hidden;">
+     <p><strong>{{ name }}</strong></p>
+     {{! left panel }}
+     <div style="width: 100px; float: left;">  
+       <img src='{{ image }}' width='84px;' height='84px;' style='margin-right:1em;'>
+         <p> &#8377; <strong> {{ price }} </strong> </p>
+     </div>
+
+     {{! right panel }}
+     <div style="margin-left: 100px;"> 
+         <p>{{ short_description }}</p>
+         <p id="more" class='w3-text-blue w3-right w3-tiny'> double click for more... </p>
+         <div id='ratings'></div>
+         <p></p>
+        {{! an order button with a spinner }}
+        <div style='display:inline-block'>
+            <input type='number' id='item-quantity' name='item-quantity' value='1' min="1"
+            style='width:4em;text-align:center'></span>
+            <button id='order-button'>Order</button>
+        </div>
+     </div>
+</div>
+<hr>

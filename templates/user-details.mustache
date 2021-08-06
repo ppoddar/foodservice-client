@@ -1,0 +1,25 @@
+{{! form to fill up additional details }}
+<div style='width:100%;overflow:hidden;padding-top:1em'>
+    <div class='w3-small w3-text-blue' style='width:70%;float:left'>
+    Please enter other details.  
+    </div>
+    <div style='float:right;padding-right:1em'>
+    <image src='logo.png' width='24px' height='24px'></div>
+</div>  
+<table>
+<tr><td width='30%'><label for='user-image'>Image</label></td>
+    <td width='70%'><input id='user-image' type='text' size='12'></td>
+</tr>
+<tr><td width='30%'><label for='dob'>Date of birth</label></td>
+    <td width='70%'><input id='dob' type='text' size='24'></td>
+</tr>
+<tr><td width='30%'><label for='dob'>Spice preference</label></td>
+    <td width='70%'>
+    <input type='radio' name='taste-preference' id='spice-mild'><label for='spice-mild'>Mild</label>
+    <input type='radio' name='taste-preference' id='spice-medium'><label for='spice-medium'>Medium</label>
+    <input type='radio' name='taste-preference' id='spice-hot'><label for='spice-hot'>Hot</label>
+    </td>
+</tr>
+<table>
+
+<p style='margin-left:2em;' id='error-message' class='w3-text-red w3-small'></p>

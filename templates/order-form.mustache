@@ -1,0 +1,35 @@
+{{! item as appear in order form  }}
+
+<div style='margin:2em;'>
+<p><strong>{{ name }}</strong></p>
+<img src='{{ image }}' width='200px;' height='200px;'>
+<div style='display: inline-block;'>
+    {{! description can have HTML tags }}
+    <p>{{{ long_description }}}</p>
+    {{! ratings would not be added by the template engine. But a marker is left to insert }}
+    {{! ratings by Ratings.js      }}
+    <div id='ratings'></div>
+</div>
+
+<div> 
+    
+</div>
+{{! price and a spinner for quantity on a single line. Justified.}}
+<p>
+    <span><strong> &#8377; {{ price }} </strong></span>
+    <span style='float:right'>
+        <span>Quantity</span>
+        {{! an id is neeed becuase the value needs to be extarcted from outside }}
+        <span><input id='item-quantity' name='item-quantity' 
+                value='1' 
+                type='number' 
+                min="1"
+                style='width:4em;text-align:center'>
+        <span>
+    </span>
+</p>
+
+<textarea placeholder="any special instructions for our cook..." rows="4" cols="40" style='clear:both'>
+</textarea>
+</div>
+<hr>

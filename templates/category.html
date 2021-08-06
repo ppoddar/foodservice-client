@@ -1,0 +1,43 @@
+<!DOCTYPE html5>
+<head>
+    <base href='..'>
+    <title>Hiraafood</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+<div id='test'  style='width:70%'>
+
+<div id='category'>
+    <span id='control' style='margin-right:1em;' class='material-icons'>expand_more</span>
+    <span id='label'   style='font-weight:bold'></span>
+    <span id='icon'    style='float:right;' class='material-icons'>restaurant_menu</span>
+</div>
+
+<script type='module'>
+    import Item from './js/item.js'
+    import Category from './js/category.js'
+
+    var cat1 = new Category('c1')
+    var cat2 = new Category('c2')
+
+    var item = new Item({'sku':'101test', 'name':'some name', 'price':30.06}) 
+    cat1.addItem(item)
+    cat2.addItem(item)
+
+    cat1.render($('#test'))
+    cat2.render($('#test'))
+
+    $('#category').hide()
+</script>
+</body>
+</html>

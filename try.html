@@ -1,0 +1,28 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <title>Hiraafood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+
+</head>
+
+<body>
+    <input id='one' type='radio' name='g' checked>  <label for='one'>1</label><br>
+    <input id='two' type='radio' name='g'>  <label for='two'>2</label><br>
+    
+
+    <script>
+        var checked = $('input[name=g]:checked').first().next('label')
+        console.log(`checked [${checked.text()}]`)
+
+    </script>
+</body>
+</html>

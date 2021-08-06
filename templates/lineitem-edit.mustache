@@ -1,0 +1,9 @@
+{{! simple dialog to change the quantity ordered for a line item }}
+{{! name, quantity }}
+
+    <p><strong> {{ name }} </strong></p>
+    <span>Quantity:</span> 
+    <input type='number' min='1' id='quantity' value='{{ quantity }}'
+           style='width:4em;text-align:center'>
+    <span class='material-icons w3-red'>delete</span>
+    <br>

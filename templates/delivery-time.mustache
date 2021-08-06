@@ -1,0 +1,16 @@
+<p class='w3-panel w3-xlarge w3-yellow'>
+    <b>When</b> would you like the food? 
+    <span class="material-icons w3-right" style='font-size:2em'>schedule</span>
+</p>
+
+<div id='delivery-time-choices' style='padding-left:4em;'>
+    <input type='radio' name={{group}} id='delivery-time-default' checked>
+    <label for='delivery-time-default' id='delivery-time-default-label'></label> {{ delivery_delay }}
+    <br>
+    <input type='radio' name={{group}} id='delivery-time-custom'>
+    <label for='delivery-time-custom-label'>
+        <input id='timepicker' type='text' placeholder='pick a time'>
+    </label>
+    {{! will add the datepicker at runetime }}
+    <br>
+</div>

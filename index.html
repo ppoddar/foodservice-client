@@ -1,0 +1,75 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <title>Hiraafood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+</head>
+
+<body>
+<div id='navbar'>
+    {{! loaded from template }}
+</div>
+
+<div class='w3-display-container' style='width:100%;height:80%'>
+    <div class='w3-display-middle w3-border' 
+        style="width:100%;height: 100%; padding-top: 2em;" >
+        <h1><strong>Hiraafood</strong></h1>
+        <h4 id='subtitle'></h4>
+    </div>
+    <div class='w3-display-bottomleft' style="padding-left: 2em;padding-bottom: 2em;">
+        <button class="w3-circle w3-blue">
+            <a href='catering.html'>Catering</a> 
+        </button>
+    </div>
+    <div class='w3-display-bottommiddle' style="padding-bottom: 2em;">
+        <button class="w3-circle">
+            <a href='menu.html'>Home Delivery</a>
+        </button>
+    </div>
+    <div class='w3-display-bottomright' style="padding-right: 2em;padding-bottom: 2em;">
+        <button class="w3-circle w3-blue">
+            <a href='travel.html'>Travel</a>
+        </button>
+    </div>
+</div>
+
+
+<script type="module">
+
+    
+    import User from './js/user.js'
+    var $subtitle = $('#subtitle')
+    var speed = 100
+    loadTemplate($('#navbar'), 'templates/navbar-app.mustache', {'title':'Hiraafood'},
+    function() {
+        var user = User.instance()
+        user.autologin($('#user'))
+    })
+
+    typewriter(0, 'a complete food solution')
+    
+    function typewriter(i, txt) {
+        if (i < txt.length) {
+            $subtitle.html($subtitle.html() + txt.charAt(i));
+            setTimeout(typewriter, speed, i+1, txt);
+        }
+    }
+</script>    
+</body>
+
+</html>
+
+
+<!-- 
+<script src="https://unpkg.com/react@17/umd/react.development.js"         crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="./js/cart-icon-react.js"></script>
+-->

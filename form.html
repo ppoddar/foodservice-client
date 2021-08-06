@@ -1,0 +1,31 @@
+<html>
+
+
+<body>
+    <form id="create-item-form"
+          action="/order/load_items" 
+          method="POST"
+          onsubmit="return validateForm()">
+        <label for="sku">SKU:</label>
+        <input type="text" id="sku" name="sku"><br><br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description"><br><br>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price"><br><br>
+
+        <input type="submit" value="Create Item">
+      </form>
+
+      <script>
+        function validateForm() {
+            let sku = document.forms["create-item-form"]["sku"].value;
+            if (sku == "") {
+                alert("SKU must be filled out");
+                return false;
+            }
+        }
+      </script>
+    </body>
+</html>

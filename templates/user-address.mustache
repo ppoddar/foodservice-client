@@ -1,0 +1,39 @@
+{{! form to create address }}
+{{! this would be the primary address for the user }}
+<div style='width:100%;overflow:hidden;padding-top:1em'>
+    <div class='w3-small w3-text-blue' style='width:70%;float:left'>
+    Please enter address details.  
+    </div>
+    <div style='float:right;padding-right:1em'>
+    <image src='logo.png' width='24px' height='24px'></div>
+</div>  
+<table>
+<tr><td width='30%'><label for='line1'><b>Street</b></label></td>
+    <td width='70%'><input id='line1' type='text' size='24'></td>
+</tr>
+<tr><td width='30%'><label for='line2'>Line 2</label></td>
+    <td width='70%'><input id='line2' type='text' size='24'></td>
+</tr>
+<tr><td width='30%'><label for='city'><b>City</b></label></td>
+    <td width='70%'><input id='city' type='text' size='12'></td>
+</tr>
+<tr><td width='30%'><label for='state'>State</label></td>
+    <td width='70%'><input id='state' type='text' size='12'></td>
+</tr>
+<tr><td width='30%'><label for='pin'><b>PIN</b></label></td>
+    <td width='70%'><input id='pin' type='text' size='12'></td>
+</tr>
+<tr><td width='30%'><label for='phone'>Phone</label></td>
+    <td width='70%'><input id='phone' type='text' size='12'></td>
+</tr>
+<tr><td width='30%'><label for='direction'>Directions</label></td>
+    <td width='70%'><textarea id='direction' rows='4' cols='40'
+    placeholder='any direction or landmark. Any other instruction...'>
+</textarea>
+</tr>
+<table>
+
+<p class='w3-small' style='font-weight:bold'><sup>*</sup>fields in bold must be filled</p>
+
+
+<p style='margin-left:2em' id='error-message' class='w3-text-red w3-small'></p>

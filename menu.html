@@ -1,0 +1,80 @@
+<!DOCTYPE html5>
+<head>
+    <title>Hiraafood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script>
+        $().ready(function() {
+            var SERVER_URL = 'http://localhost:8000'
+            $.ajaxSetup({
+                beforeSend: function(jqXHR, settings) {
+                    settings.url = `${SERVER_URL}/${settings.url}`
+                }
+            })
+
+    })
+    </script>
+
+    
+    <script type="module">
+        
+    import Cart from        './js/cart.js'
+    import Menu from        './js/menu.js'
+    import Order from       './js/order.js'
+    import Category from    './js/category.js'
+    import Item  from       './js/item.js'
+    import User  from       './js/user.js'
+    import DiscountManager  from   './js/discount_manager.js'
+
+    $().ready(function () {
+        var _this = this
+        // the navbar-app.mustache is loaded asynchronously.
+        // rest of page can be rendered after navbar has been loaded
+        loadTemplate($('#navbar'), 'templates/navbar-menu.mustache', {}, function(){
+            var user  = User.instance()
+            user.render($('#user')) 
+            loadTemplate($('#menu'), 'templates/menu.mustache', {}, function() {
+                Menu.instance(function(menu) {
+                    menu.render($e($('body'), '#menu'))
+                    loadTemplate($('#order'), 'templates/order.mustache', {}, function() {
+                        var order = new Order()
+                        // order is initailly placed on behalf of current user
+                        // the user may not yet be authenticated
+                        order.user = user.username
+                        order.init(function(order) {
+                            var cart  = Cart.instance()
+                            cart.order = order
+                            // cart renders at two divs. one for the icon other for the details
+                            cart.render($('#cart'), $('#order'))
+                        })
+                    })
+                })
+            })  
+        })
+    })
+</script>
+</head>
+
+
+<body ID='BODY'>
+    <div id='navbar'></div>    
+    <!-- page is a two column with menu and order -->
+    <div class='w3-container w3-row'>
+        <!-- the list of menu items. Each item will have controls to order them -->
+        <div id='menu' class='w3-col m7 w3-margin w3-border'>
+        </div>
+        <!-- the list of ordered items. A view of the shopping cart items -->
+        <!-- also have buttons to apply a discoungt code and checkout -->
+        <div id='order' class='w3-col m4 w3-margin-top w3-border'>
+            <!-- cart render() will fill this div -->
+        </div>
+    </div>
+</body>

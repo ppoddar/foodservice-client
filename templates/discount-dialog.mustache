@@ -1,0 +1,22 @@
+{{#discounts}}
+<div style="width: 100%; overflow: hidden;">
+     <div style="width: 30%; float: left;"> 
+        {{! code is the id of the radio button. No button is checked }}
+        <span><input type='radio' id={{code}} value={{name}} name='{{group}}'></span>
+        <label for={{code}}><strong>{{name}}</strong></label>
+        <div style='margin:auto;text:align:center;line-height: 80%;'>
+            <p class='w3-small'>from {{starts_at}}</p>
+            <p class='w3-small'>to {{ends_at}}</p>
+        </div>
+     </div>
+
+     <div style="margin-left: 31%;">
+       <p>discount code:<strong>{{code}}</strong></p>
+       {{! description can contain HTML tags }}
+       <p>{{{description}}}</p>
+     </div>
+     <hr>
+</div>
+
+{{/discounts}}
+

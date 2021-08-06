@@ -1,0 +1,36 @@
+{{! lineitem appears as a row in shopping cart table }}
+{{! Quantty | Name of the item | cost | edit button }}
+<tr>
+<td width='10%'>{{quantity}}</td>
+<td width='60%' class='w3-small'>{{name}}</td>
+<td width='20%' >{{cost}}</td>
+<td width='10%' ><span id='lineitem-edit' class='material-icons w3-small'>edit</span></td>
+</tr>
+{{! --------------------------------------------------------- }}
+{{! The is an example of script being included in template    }}
+{{! a script module is included                               }}
+{{! --------------------------------------------------------- }}
+<script type='module'>
+    import Cart from './js/cart.js'
+    $('#lineitem-edit').on('click', function() {
+        // TODO: how to update the quantity inside the item display ?
+        var data = {
+            'name'    : '{{ name }}',
+            'quantity': '{{ quantity }}'
+        }
+        // a dialog to change quantty of the line item
+        var opts = {'title': 'change quantity', 
+            'width':300, 'height':200, 
+            buttons: [
+                {'text' : 'change',
+                 'click': ()=>{
+                    $(this).closest('.ui-dialog-content').dialog('close')
+                    var sku = '{{ sku }}'
+                    var q   = $(this).find('#item-quantity').val()
+                    Cart.instance().changeQuantity(sku, q)
+                    Cart.instance().render()
+                 }}
+            ]}
+        openDialog('templates/lineitem-edit.mustache', data, opts)
+    })
+</script>

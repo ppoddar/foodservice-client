@@ -1,0 +1,55 @@
+<!DOCTYPE html5>
+<head>
+    <base href='..'>
+    <title>Hiraafood</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+<div id='test' style='border:1px solid black;'></div>
+<script type="text/html" id='mytemplate'>
+{{#addresses}}
+    <input type='radio' name='{{group}}' id='{{name}}'>
+    <label for='{{name}}'>{{name}}</label><br>
+{{/addresses}}
+     
+</script>
+<script type='module'>
+    import AddressGroup from './js/address-group.js'
+    import Address from './js/address.js'
+    
+    var addr1 = new Address({'id':'1001', 'name': 'home',   'street':'street1', 'pin':'700076'})
+    var addr2 = new Address({'id':'1002', 'name': 'office', 'street':'street2', 'pin':'897654'})
+    var group = new AddressGroup('mygroup')
+    group.addAddress(addr1)
+    group.addAddress(addr2)
+    
+    group.render($('#test'))
+
+    var data = {
+        "group" : "mygroup",
+        "addresses": [
+            {"name": "home",   "street": "abcd"},
+            {"name": "office", "street": "xyzw"}
+        ]
+    }
+    var template = $('#mytemplate').html()
+    //console.log(template)
+    var html = Mustache.render(template, data)
+    //console.log(html)
+
+    $('#test').html(html)
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html5>
+<head>
+    <base href='..'>
+    <title>Hiraafood</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+<div id='address'>
+    <p id='street'></p>
+    <p id='pin'></p>
+</div>
+
+<script type='module'>
+    import Address from './js/address.js'
+    
+    var addr = new Address({'street':'street1', 'pin':'700076'})
+    
+    addr.render($('#address'))
+
+    
+
+</script>
+</body>
+</html>
