@@ -1,14 +1,27 @@
 {{! form to accept user credentails }}
 {{! a table of one column with label and second column for input value }}
 
-<div style='width:100%;overflow:hidden;padding-top:1em'>
-    <div class='w3-small w3-text-blue' style='width:70%;float:left'>
-        Login with username and password. If not registered, please sign up.
+<div style='width:100%;overflow:hidden;padding-top:1em;padding-left:2em;padding-right:1em;'>
+    <div class='w3-small w3-text-blue' style='width:70%;'>
+        
     </div>
-    <div style='float:right;padding-right:1em'>
-        <image src='logo.png' width='24px' height='24px'>
-    </div>
+    
 </div>    
+<table width='100%'>
+  <tr>
+    <td width='80%' style="vertical-align:top;">
+        <div class='w3-small w3-text-blue'>Login with username and password. If not registered, please sign up.</div>
+    </td>
+    <td>
+        <div style='float:right;'>
+            <object type="image/svg+xml" 
+                with="48px;" height="48px;" 
+                data='./images/logo.svg'>
+            </object>
+    </div>
+    </td>
+  </tr>
+</table>
 <hr>
 <table class='w3-padding'>
     <tr><td width='30%'><label for='user-name'>Name</label></td>
@@ -21,15 +34,25 @@
 
 <div style='margin-left:2em;'>
     <p>Not regsitered, no login id? <a id='signup' href='#'>Signup</p>
-    <p><a id='forgot-username' href='forgotten.html'>Forgotten login id? </p>
-    <p><a id='forgot-password' href='forgotten.html'>Forgotten password? </p>
-    <p id='error_message' class='w3-text-red w3-small'></p>
+    <p class='w3-small'>Forgot 
+        <a id='forgot-username' href='forgotten.html#username' style='padding-right:1em;'>login id? 
+        <a id='forgot-password' href='forgotten.html#password'>password? </p>
 </div>
+{{! ----------------- error message block ---------------- }}
+<div id='error' style='width=100%;overflow:hidden;padding-left:1em;' class='w3-hide'>
+    <div style='float:left;padding:0;'>
+        <span class='material-icons' style='color:red;font-size:16pt;'>error</span>
+    </div>
+    <div id='message' style='margin-left:24px' class='w3-text-red'>
+        {{! set at runtime }}
+    </div>
+</div>
+{{! ----------------------------------------------------- }}
 
 <script type='module'>
     import User from './js/user.js'
     $('#signup').on('click', function() {
-        console.log(`signup button insde login page was clicked`)
+        //console.log(`signup button insde login page was clicked`)
         $(this).closest('.ui-dialog-content').dialog('close')
         var user = User.instance()
         user.signup(function(newUser){

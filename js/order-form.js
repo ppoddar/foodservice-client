@@ -17,13 +17,18 @@ class OrderForm {
      * quantity and additional instructions via a separate dialog.
      */
     open() {
-        var self = this
+        var _this = this
         //console.log(`open order form for ${JSON.stringify(item)}`)
         var orderFunction = function() {
-            var quantity = parseInt($(this).find('#item-quantity').val())
-            var lineitem = new LineItem(self.item, quantity)
+            //var lineitem = new LineItem(_this.item, quantity)
+            var lineitem = new LineItem({
+                'item'    : _this.item, 
+                'quantity': parseInt($(this).find('#item-quantity').val()),
+                'half'    : $(this).find('#half-plate').is(':checked')})
+            
             Cart.instance().addLineItem(lineitem)
-            self.actualOrder = true
+            _this.item.changeQuantity(quantity)
+            _this.actualOrder = true
             $(this).dialog('close')
         }
         
@@ -91,7 +96,7 @@ class OrderForm {
                             console.log(`selected ${q} of additional item ${s}`)
                             try {
                                 var additional_item = Menu.instance().findItemBySKU(s)
-                                var li = new LineItem(additional_item, q)
+                                var li = new LineItem({'item':additional_item, 'quantity':q})
                                 Cart.instance().addLineItem(li)
                             } catch (err) {
                                 // pass

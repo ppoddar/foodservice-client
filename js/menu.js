@@ -1,13 +1,17 @@
+import {Categories} from "./categories.js";
 import Category from "./category.js"
-import Item from "./item.js";
+import Item     from "./item.js";
 
 class Menu {
-    constructor() {
-        this.items      = []
-        this.categories = {}
-        this.recommendations = []
+    constructor(items) {
+        console.log(`initializing menu from ${items.length} items`)
+        if (items) {
+            this.items      = items
+            this.categories = this.categorize(items)
+        } else {
+            throw `can not construct menu with undefiend items`
+        }
     }
-
     /**
      * Gets the singleton menu.
      * 
@@ -19,34 +23,35 @@ class Menu {
      * @param {*} cb a callback function where this == this menu.
      * optional.
      */
-    static instance(cb) {
-        if (singleton) {
-            return singleton
-        }
-        console.log(`initilaizing menu from server...`)
-        $.ajax({
-            url: `item/get_all`,
-            success: function(response) {
-                if (response.status == 200) {
-                    console.log(`received response from ajax with ${response['data'].length} items`)
-                    singleton = new Menu()
-                    singleton.init(response['data'])
-                    singleton.getAllRecommendation()
-                    cb.call(null, singleton)
-                } else {
-                    openErrorDialog('Initalization error', response.message)
-                }
-            },
-            error: function (err) {
-                console.log(err)
-            }
-        })
-    }
+    // static instance(cb) {
+    //     if (singleton) {
+    //         return singleton
+    //     }
+    //     console.log(`initilaizing menu from server...`)
+    //     // IMPORTANT: all server urls must begin with '/' 
+    //     $.ajax({
+    //         url: `/item/all`,
+    //         success: function(response) {
+    //             if (response.status == 200) {
+    //                 console.log(`received response from ajax with ${response['data'].length} items`)
+    //                 singleton = new Menu()
+    //                 singleton.init(response['data'])
+    //                 singleton.getAllRecommendation()
+    //                 cb.call(null, singleton)
+    //             } else {
+    //                 openErrorDialog('Initalization error', response.message)
+    //             }
+    //         },
+    //         error: function (err) {
+    //             console.log(err)
+    //         }
+    //     })
+    // }
 
-    init(items) {
-        this.items = items
-        this.categories = this.categorize(this.items)
-    }
+    // init(items) {
+    //     this.items = items
+    //     this.categories = this.categorize(this.items)
+    // }
 
     /**
      * renders the entire menu.
@@ -64,8 +69,9 @@ class Menu {
     }
 
     renderCategories($div) {
-        this.buildCategoryOptions($div)
+        this.categories.buildCategoryOptions($div)
     }
+
 
     /**
      * renders all the menu items in given div.
@@ -88,10 +94,9 @@ class Menu {
     sortedItems() {
         var shown = []
         var result = []
-        for (var i = 0; i < Category.ORDER.length; i++) {
-            var c = Category.ORDER[i]
-            if (c in this.categories) {
-                var category = this.categories[c]
+        for (var i = 0; i < Categories.ORDER.length; i++) {
+            var category = this.categories.searchCategoryById(Categories.ORDER[i])
+            if (category) {
                 var items = category.items
                 for (var j = 0; j < items.length; j++) {
                     var item = items[j]
@@ -106,20 +111,19 @@ class Menu {
 
     /**
      * filters the items by category.
-     * The list of items are sorted by category names a sappear in Category.ORDER
+     * The list of items are sorted by category labels as appear in Categories.ORDER
      * An item may appear in multiple categories but an item appears only once
      * in the resultant array
      * 
-     * 
-     * @param {*} category_name a category name. null implies no filtering.
+     * @param {*} category_label a category label. null implies no filtering.
      * @returns an array of filtered items
      */
-    filterByCategory(category_name) {
-        var result = []
+    filterByCategory(category_label) {
+        var result     = []
         var candidates = []
-        var selected = []
-        if (category_name) {
-            var candidates = this.categories[category_name].items
+        var selected   = []
+        if (category_label) {
+            var candidates = this.categories.getByLabel(category_label).items
             for (var i = 0; i < candidates.length; i++) {
                 var item = candidates[i]
                 if (selected.includes(item.sku)) continue;
@@ -130,8 +134,8 @@ class Menu {
             }
             return result
         } else {
-            for (var j = 0; j < Category.ORDER.length; j++) {
-                var candidates = this.categories[Category.ORDER[j]].items
+            for (var j = 0; j < Categories.ORDER.length; j++) {
+                var candidates = this.categories.getById(Categories.ORDER[i]).items
                 for (var i = 0; i < candidates.length; i++) {
                     var item = candidates[i]
                     if (selected.includes(item.sku)) continue;
@@ -149,19 +153,14 @@ class Menu {
      * @returns a map of category name -> Category
      */
     categorize(items) {
-        var categories = {} // map name -> Category
+        var categories = new Categories() 
         for (var i = 0; i < items.length; i++) {
             let item = new Item(items[i])
             //console.log(`${item} in categories ${item.categories}` )
+            // an item may have multiple category ids
             for (var j = 0; j < item.categories.length; j++) {
-                let c = item.categories[j]
-                var category
-                if (!(c in categories)) {
-                    category = new Category(c)
-                    categories[c] = category
-                } else {
-                    category = categories[c]
-                }
+                let cid = item.categories[j]
+                var category = categories.addCategory(cid)
                 category.addItem(item)
             }
         }
@@ -169,78 +168,19 @@ class Menu {
     }
 
     /**
-     * List of other items' SKU that are recommended with the item
-     * with given sku.
-     * can be empty
+     * Finds item by given sku.
+     * @param {string} sku 
+     * @returns an Item object
+     * @raises Exception if no item with given SKU exists in this menu
      */
-     getRecommendation(sku) {
-         console.log(`getRecommendation(${sku}) in ${this.recommendations.length} `)
-        for (var i = 0; i < this.recommendations.length; i++) {
-            var reco = this.recommendations[i]
-            console.log(`look for reco ${JSON.stringify(reco)}`)
-            if (reco.sku == sku) {
-                console.log(`matched! others: ${JSON.stringify(reco.others)}`)
-                var others = reco.others
-                if (!Array.isArray(others)) {
-                    others = others.split(' ')
-                }
-                console.log(`getRecommendation returns ${JSON.stringify(others)}`)
-                return others
-            }
-        }
-    }
-
-
-    getAllRecommendation(cb) {
-        var self = this
-        $.ajax({
-            url: `item/get_all/recommendation`,
-            success: function(response) {
-                console.log(`response recommendations ${JSON.stringify(response)}`)
-                self.recommendations = response['data']
-                if (cb) cb.call(self)
-            }
-        })
-    }
-
     findItemBySKU(sku) {
         for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].sku == sku) return this.items[i]
+            if (this.items[i].sku == sku) return new Item(this.items[i])
         }
-        throw `no item found with sku ${sku}`
+        //throw `no item found with sku ${sku} in this menu of ${this.items.length} items`
     }
 
-    /*
-     * Builds drop-down elements to select category 
-     */
-    buildCategoryOptions($div) {
-        var $dropdown = $e($div, '#category-selection-dropdown')
-        var $all = this.buildCategoryOption(null, 'All')
-        $dropdown.append($all)
-        for (var i = 0; i < Category.ORDER.length; i++) {
-            var category_name = Category.ORDER[i]
-            var $option = this.buildCategoryOption(category_name, Category.getLabelForName(category_name))
-            $dropdown.append($option)
-        }
-    }
-
-    /*
-     * A dropdown option selects items from a particular category.
-     * The category lable is updated.
-     * @param name category name. Null implies no filtering i.e. all items. 
-     * @param label a label to show. 
-     */
-    buildCategoryOption(name, label) {
-        //console.log(`buildCategoryOption ${label}`)
-        var $button = $('<button>')
-        $button.text(label)
-        var _this = this
-        $button.on('click', function() {
-            _this.selectByCategory.apply(_this, [name])
-            $('#category-option').text(label)
-        })
-        return $button
-    }
+   
 /*
  * selects items of given category and renders the items on $menu-items element
  */    
@@ -255,6 +195,6 @@ class Menu {
 }
 
 }
-var singleton
+//var singleton
 
 export default Menu

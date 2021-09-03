@@ -1,0 +1,24 @@
+{{! a radio button with label of two dates }}
+
+<input type='radio' id={{label}} name={{group}} {{enabled}} >
+<label for='#{{label}}'>{{label}}</label> 
+
+<div style='overflow:hidden'>
+{{#from}} 
+<div style='float:left;width:54px;height:64px;text-align:center;border:1px solid black;'>
+    <p class="w3-red w3-tiny" style='padding: 0;margin:0'>
+          <strong>{{month}}</strong>
+    </p>
+    <span style="font-size: 24pt;font-weight:bold;padding: 0.1em;">{{day}}</span>
+</div>
+{{/from}}
+
+{{#to}}   
+<div style='width:54px;height:64px;text-align:center;border:1px solid black;margin-left:60px;'>
+    <p class="w3-red w3-tiny" style='padding: 0;margin:0'>
+          <strong>{{month}}</strong>
+    </p>
+    <span style="font-size: 24pt;font-weight:bold;padding: 0.1em;">{{day}}</span>
+</div>
+{{/to}}
+</div>

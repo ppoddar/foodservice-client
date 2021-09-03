@@ -3,7 +3,8 @@
 {{! order, lineitems[], total }}
 
 <div class='w3-bar'>
-    <div id='order-id' class='w3-bar-item'>Order {{order}}</div>
+    <div id='order-id'  class='w3-bar-item w3-text-blue'>{{order}}</div>
+    <div id='user-name' class='w3-bar-item w3-right w3-small'>{{user}}</div>
 </div>
 
 <table id='cart-items' class="w3-table-all" style="width:100%;">
@@ -28,16 +29,11 @@
 <span class="w3-tiny w3-text-grey"><sup>*</sup><strong>exclusive of taxes and discount</strong></span>
 
 {{! controls }}
-
-    <div style='margin:2em;''>
+    <div id='cart-controls' style='margin:auto;width:100%;text-align: center;padding-top: 2em;'>
         <span> <button id='discount-button'>Apply Discount</button></span>
-        <span id='discount-code' class='w3-text-green'>
-        <strong>
-            {{! will be filled in the script }}
-        </strong></span>
-    </div>
-
-    <div style='margin:auto;width:100%;text-align: center;padding-top: 2em;'>
+            {{! will be filled in the script }} 
+        <span id='discount-code' class='w3-text-green'><strong></strong></span>
+        <p></p>
         <button id='checkout-button'>checkout</button>
     </div>
 </div>

@@ -1,0 +1,19 @@
+<div>
+    <div style='width:100%;padding: 2em;'>
+        <h3>Orders</h3>
+        <table id='order-table' ></table>
+    </div>  
+    <button id='view-order'>Customize ...</button>
+</div>
+
+<script type="module">
+    import OrderSelection       from './js/order-selection.js'
+    import OrderTable           from './js/order-table.js'
+
+    new OrderSelection().viewDailyOrder($('#order-table'))
+    $('#view-order').on('click', ()=>{
+        new OrderSelection().viewOrder($('#order-table'))
+    })
+    
+</script>
+

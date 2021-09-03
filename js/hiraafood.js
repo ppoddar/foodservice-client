@@ -1,3 +1,6 @@
+// TODO: LOGO_URL
+var LOGO_URL = 'http://localhost:8000/static/logo.png'
+
 /**
  * gets a value for given dictionary with a possible default
  * @param {*} dict 
@@ -6,6 +9,7 @@
  * @returns 
  */
  function fromDict(dict, key, def) {
+     var value
     if (key in dict) {
         return dict[key]
     } else if (def) {
@@ -23,16 +27,29 @@
  * @param {message} dialog message
  * @param {fn} cb the callback, if any, will be called when the dialog is closed
  */
-function openWarningDialog(title,message,cb) {
+function openWarningDialog(title,message,cb, closeFn) {
     var opts = {
         autoOpen: true,
         modal:true,
         width: 300,
-        height: 300,
+        height: 200,
         'title'  : title || 'Warning',
-        'close': ()=>{
-            $(this).closest('.ui-dialog-content').dialog('close')
-            if (cb) cb.call(null)
+        'buttons': [
+            {
+                'text': 'OK',
+                'click': function() {
+                    $(this).dialog('destroy')
+                    if (typeof(cb) == 'function') {
+                        cb.call(null)
+                    }
+                }
+            }
+        ],
+        'close': function(event, ui) {
+            $(this).dialog('destroy')
+            if (typeof(closeFn) == 'function') {
+                closeFn.call(null)
+            }
         }
     }
     openDialog('templates/warning.mustache', 
@@ -61,6 +78,7 @@ function openWarningDialog(title,message,cb) {
             window.location = 'index.html'
         }
     }
+
     openDialog('templates/error.mustache', 
         {'message': message || ''}, opts)
 }
@@ -69,7 +87,8 @@ function openWarningDialog(title,message,cb) {
 
 
 /**
- * Opens a dialog
+ * Opens a dialog.
+ * 
  * @param {*} template_file 
  * @param {*} data 
  * @param {Dictornary} opts has all the options to configure a dialog
@@ -79,11 +98,15 @@ function openDialog(template_file, data, opts) {
     $.get(template_file, function(template){
         opts = opts || {}
         data['description'] = ''
+        data['logo']        = LOGO_URL
         var html = Mustache.render(template, data)
         var $dialog = $('<div>')
+        var id = extractName(template_file)
+        $dialog.attr('id', id)
         $dialog.html(html)
         var w = opts['width']   || 600
         var h = opts['height']  || 500
+        //console.log(`openDialog [${id}] close function ${opts['close']}`)
         $dialog.dialog({
             autoOpen : opts['autoOpen']  || true,
             modal    : opts['modal']     || true,
@@ -92,10 +115,17 @@ function openDialog(template_file, data, opts) {
             title    : opts['title']   || '',
             buttons  : opts['buttons'] || [],
             open     : opts['open']    || {},
-            close    : opts['close']   || {}
-        })
+            close    : opts['close']   || 
+            function(event, ui) {
+                // close all open dialogs
+                $(".ui-dialog-titlebar-close").trigger('click');
+                $(this).dialog("destroy");
 
+            }
+        })
     })
+
+    
 }
 
 /**
@@ -106,7 +136,8 @@ function openDialog(template_file, data, opts) {
  * @param {HTMLDivElement} $div existing element //TODO; can it be new?
  * @param {String} template_name name of template file in the server
  * @param {dictionary} data optional dictionary to apply to the template
- * @param cb an optional function wil be called with no argument
+ * @param cb an optional function wil be called with the given div 
+ * (now rendered with loaded template and data) as argument
  */
 function loadTemplate($div, template_name, data, cb) {
     $.get(template_name, function(template) {
@@ -114,7 +145,7 @@ function loadTemplate($div, template_name, data, cb) {
         $div.html(html)
         //console.log(`loadTemplate() ${template_name} callback ${cb}`)
         if (typeof cb === 'function') {
-            cb.call(null)
+            cb.call(null, $div)
         }
     })
 }
@@ -163,8 +194,19 @@ function loadTemplate($div, template_name, data, cb) {
 function $e($div, selector) {
     var $element = $div.find(selector)
     if ($element.length == 0) {
-        var suggest = (selector.startsWqith('#')) ? '' : 'did you forget #?'
+        var suggest = (selector.startsWith('#')) ? '' : 'did you forget #?'
         throw `element by [${selector}] not found in div [${$div.attr('id')}]. ${suggest}`
     }
     return $element
+}
+
+/**
+ * extract only name of filename like string 
+ * @param {*} str file name like string with diretory path and extension
+ */
+function extractName(str) {
+    var idx = str.lastIndexOf('/')
+    var str1 = str.substring(idx+1)
+    idx = str1.lastIndexOf('.')
+    return str1.substring(0, idx)
 }

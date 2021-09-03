@@ -1,0 +1,38 @@
+<div>
+    <p>Discount <strong>{{code}}</strong></p>
+
+    <table>
+    <tr>
+        <td><label for='#name'><strong>Name</strong></label></td>
+        <td><input id='name' type='text' value={{name}}></td>
+    </tr>
+    <tr>
+    <td><label for='#starts_at'><strong>Starts at</strong></label></td>
+    <td><input id='starts_at' type='date' value={{starts_at}}></td>
+    </tr>
+    <tr>
+    <td><label for='#ends_at'><strong>Ends on</strong></label></td>
+    <td><input id='ends_at' type='date' value={{ends_at}}></td>
+    </tr>
+    <tr>
+    {{! because description is not visible, the data that is used to populuate }}
+    {{! this template does not carry it by field name, but field index         }}
+    {{! hence we refer it as '4' rather than 'description' }}
+    {{! also the content uses triple-bracket to not to esacpe the HTML tags }}
+    <td><label for='#description'><strong>Description</strong></label></td>
+    <td><textarea id='description' cols=40 rows=4 style='vertical-align:middle'> {{{4}}} 
+    </textarea></td>   
+    </tr>
+    </table>
+    {{! ----------------- error message block ---------------- }}
+<div id='error' style='width=100%;overflow:hidden;padding-left:1em;' class='w3-hide'>
+    <div style='float:left;padding:0;'>
+        <span class='material-icons' style='color:red;font-size:16pt;'>error</span>
+    </div>
+    <div id='message' style='margin-left:24px' class='w3-text-red'>
+        {{! set at runtime }}
+    </div>
+</div>
+{{! ----------------------------------------------------- }}
+
+</div>

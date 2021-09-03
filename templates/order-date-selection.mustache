@@ -1,0 +1,34 @@
+<div class='w3-panel w3-yellow' style='padding-top:0;padding-bottom:0.2em;margin:0;text-align:center;'>
+    <h3>Select order date</h3>
+</div>
+<input type='radio' id='today' name={{group}} checked>
+<label for='#today'>Today
+<div style='display:inline-block;
+            width:54px;height:72px;
+            text-align:center;
+            border:1px solid black;'>
+    <p class="w3-red w3-tiny" style='padding: 0;margin:0'>
+          <strong>{{month}}</strong>
+    </p>
+    <span style="font-size: 24pt;font-weight:bold;padding: 0em;">{{day}}</span>
+    <br>
+    <span style="font-size: 12pt;font-weight:bold;color:#DDDDDD;
+            padding: 0.1em;float:right">{{year}}</span>
+</div>
+</label>
+<p style="padding:0.5em;"></p>
+<input type='radio' id='custom' name={{group}}> 
+<label for="#custom">
+    <label for='#from'>from</label>
+    <input type='date' id='from' value={{default-date}}> 
+
+    <label for='#to'>to</label>
+    <input type='date' id='to' value={{default-date}}> 
+</label>
+<p style="padding:0.5em;"></p>
+
+{{! the altDate format is appropriate for django backend }}
+<script>
+    $('#from').datepicker({"altFormat": "{{date-format}}"})
+    $('#to').datepicker  ({"altFormat": "{{date-format}}"})
+</script>

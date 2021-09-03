@@ -1,0 +1,44 @@
+
+<table>
+<tr>
+    <td>Date</td>
+    <td id='expense-date'><input type="date" required></td>
+</tr>
+<tr>
+    <td>Title</td>
+    <td><input id='expense-title' type="text" required></td>
+</tr>
+<tr>
+    <td>Category  
+    <select id='expense-category-options'>
+        {{#categories}}
+            <option value={{name}}>{{label}}</option>
+        {{/categories}}
+        </select>
+    </td>
+    <td>
+    <p id='expense-category'></p>
+    
+    </td>
+</tr>
+<tr>
+    <td>Amount</td>
+    <td><input id='expense-amount' type="number" min="1" required></td>
+</tr>
+
+<tr>
+    <td>Who</td>
+    <td><input id='expense-user' type="text" required></td>
+</tr>
+
+<tr>
+    <td>Comment</td>
+    <td><textarea id='expense-comment' rows="4" cols="40"></textarea>
+</tr>
+</table>
+
+<script>
+    $('#expense-category-options').on('change', function(e) {
+        $('#expense-category').text($(this).children("option:selected").text())
+    })
+</script>

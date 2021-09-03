@@ -33,7 +33,8 @@ class Cart {
             lineitems.push(this.items[sku].toDict())
         }
         var result = {
-            'order'    : this.order.id,
+            'order'    : `Order ${this.order.id}`,
+            'user'     : `${this.order.user}`,
             'total'    : this.total().toFixed(2),
             'lineitems': lineitems
         }
@@ -146,7 +147,7 @@ class Cart {
         var $details = $('#order')
         var count = this.countOfItems()
         var template = count == 0 ? "templates/cart-empty.mustache" : "templates/cart.mustache"
-        console.log(`loading ${template} with ${JSON.stringify(this.toDict())}`)
+        //console.log(`loading ${template} with ${JSON.stringify(this.toDict())}`)
         var _this = this
         loadTemplate($details, template, this.toDict(),
             function() {
@@ -163,6 +164,20 @@ class Cart {
                         new EditLineItemDialog().open(li)
                     })
                 })
+                var $controls = $e($details, "#cart-controls")
+                $e($controls, '#discount-button').on('click', function() {
+                    new DiscountManager().fetch(function(code) {
+                        console.log(`order is associated with discount code [${code}]`)
+                        _this.order.discount_code = code
+                        $e($div, '#discount-code').text(code)
+                    })
+                })
+                $e($controls, '#checkout-button').on('click', function(){
+                    _this.order.checkout(function(bill) {
+                        bill.render()
+                    })
+                })
+                
             }
         )
     }

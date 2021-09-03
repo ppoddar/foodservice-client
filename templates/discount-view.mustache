@@ -1,0 +1,22 @@
+<table class='w3-striped'>
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Starts</th>
+        <th>Ends on</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#discounts}}
+        <tr>
+            <td>{{code}}</td>
+            <td>{{name}}</td>
+            <td>{{starts_at}}</td>
+            <td>{{ends_at}}</td>
+            <td>{{description}}</td>
+        </tr>
+        {{/discounts}}
+    </tbody>
+</table>

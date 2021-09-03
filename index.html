@@ -13,55 +13,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 </head>
 
-<body>
-<div id='navbar'>
-    {{! loaded from template }}
-</div>
+<script>
+    // prepends server URL to all ajax before send.
+    // The code must maintain the discipline of all resource request begins with '/' 
+    // If the url does not begin with '/' it remains unchanged  
+    $().ready(function() {
+        var SERVER_URL = 'http://localhost:8000'
+        $.ajaxSetup({
+            beforeSend: function (jqXHR, settings) {
+                if (settings.url.startsWith('/'))
+                    settings.url = `${SERVER_URL}${settings.url}`
+            }
+        }) 
+    })
+</script>
 
-<div class='w3-display-container' style='width:100%;height:80%'>
+<body>
+<div class='w3-display-container' style='width:100%;height:100%'>
     <div class='w3-display-middle w3-border' 
-        style="width:100%;height: 100%; padding-top: 2em;" >
-        <h1><strong>Hiraafood</strong></h1>
-        <h4 id='subtitle'></h4>
+        style="width:100%;height: 100%;" >
+        <object type="image/svg+xml" 
+            with="256px;" height="256px;" 
+            data='./images/logo.svg'>
+        </object>
     </div>
-    <div class='w3-display-bottomleft' style="padding-left: 2em;padding-bottom: 2em;">
-        <button class="w3-circle w3-blue">
-            <a href='catering.html'>Catering</a> 
-        </button>
+    <div class='w3-display-bottomleft colored-section'>
+        </h2><a style='text-decoration:none;' href='./html/catering.html'><h2>Catering</h2></a> 
     </div>
-    <div class='w3-display-bottommiddle' style="padding-bottom: 2em;">
-        <button class="w3-circle">
-            <a href='menu.html'>Home Delivery</a>
-        </button>
+    <div class='w3-display-bottommiddle colored-section'>
+        <a style='text-decoration:none;' href='./html/menu.html'><h2>Home Delivery</h2></a>
     </div>
-    <div class='w3-display-bottomright' style="padding-right: 2em;padding-bottom: 2em;">
-        <button class="w3-circle w3-blue">
-            <a href='travel.html'>Travel</a>
-        </button>
+    <div class='w3-display-bottomright colored-section'>
+        <a style='text-decoration:none;' href='./html/travel.html'><h2>Travel</h2></a>
     </div>
 </div>
 
 
 <script type="module">
+    import User from './js/user.js'
 
     
-    import User from './js/user.js'
-    var $subtitle = $('#subtitle')
-    var speed = 100
     loadTemplate($('#navbar'), 'templates/navbar-app.mustache', {'title':'Hiraafood'},
     function() {
         var user = User.instance()
         user.autologin($('#user'))
     })
 
-    typewriter(0, 'a complete food solution')
-    
-    function typewriter(i, txt) {
-        if (i < txt.length) {
-            $subtitle.html($subtitle.html() + txt.charAt(i));
-            setTimeout(typewriter, speed, i+1, txt);
-        }
-    }
 </script>    
 </body>
 

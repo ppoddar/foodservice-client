@@ -1,22 +1,26 @@
 {{! form to create address }}
 
 <table>
-<tr><td width='30%'><label for='address-name'><b>Name</b></label></td>
-    <td width='70%'><input id='address-name' type='text' size='12'></td>
+<tr><td width='30%'><label for='address-label'><strong>Label</strong></label></td>
+    <td width='70%'><input id='address-label' type='text' size='12'></td>
 </tr>
-<tr><td width='30%'><label for='address-line1'><b>Line 1</b></label></td>
+<tr><td width='30%'></td>
+    <td width='70%' class='w3-tiny'>a label such as 'home', 'office' helps
+    to identify if you maintain many delivery addresses.</td>
+</tr>
+<tr><td width='30%'><label for='address-line1'><strong>Line 1</strong></label></td>
     <td width='70%'><input id='address-line1' type='text' size='24'></td>
 </tr>
 <tr><td width='30%'><label for='address-line2'>Line 2</label></td>
     <td width='70%'><input id='address-line2' type='text' size='12'></td>
 </tr>
-<tr><td width='30%'><label for='address-city'><b>City</b></label></td>
+<tr><td width='30%'><label for='address-city'><strong>City</strong></label></td>
     <td width='70%'><input id='address-city' type='text' size='12'></td>
 </tr>
 <tr><td width='30%'><label for='address-state'>State</label></td>
     <td width='70%'><input id='address-state' type='text' size='12'></td>
 </tr>
-<tr><td width='30%'><label for='address-pin'><b>PIN</b></label></td>
+<tr><td width='30%'><label for='address-pin'><strong>PIN</strong></label></td>
     <td width='70%'><input id='address-pin' type='text' size='12'></td>
 </tr>
 <tr><td width='30%'><label for='address-phone'>Phone</label></td>
@@ -29,6 +33,6 @@
 </tr>
 <table>
 
-<p class='w3-small' style='font-weight:bold'><sup>*</sup>fields in bold must be filled</p>
+<p class='w3-tiny'><sup>*</sup><strong>fields in bold must be filled</strong></p>
 
 <p id='error-message' class='w3-text-red w3-small'></p>

@@ -1,0 +1,13 @@
+
+<div style='width:100%;padding: 2em;'>
+    <h3>Discounts</h3>
+    <table id='discount-table' ></table>
+</div>  
+<p style='float:right;font-weight: bold;' class='w3-small w3-text-blue'>
+    double-click to edit</p>
+
+
+<script type="module">
+    import DiscountView from './js/discount-view.js'
+    new DiscountView().open($('#discount-table'))
+</script>

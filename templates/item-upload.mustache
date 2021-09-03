@@ -1,0 +1,26 @@
+
+<input type='radio' name='upload-source' id='upload-file'>
+<label for='upload-file'>upload from file</label>
+<input type='file' id='input-image'>
+
+<br>
+
+<input type='radio' name='upload-source' id='upload-dir'>
+<label for='upload-dir'>upload from directory</label>
+<input type='file'>
+
+
+<div>
+    <img id='uploaded-image' width='256px' height='256px'>
+</div>
+
+<script>
+    $('#input-image').on('change', function(e) {
+        const file = $(this)[0].files[0]
+        console.log(`input image changed to ${file.name} size=${file.size/1024/1024} MB`)
+        if (file) {
+            $('#uploaded-image').attr('src', URL.createObjectURL(file))
+        }
+    })
+
+</script>

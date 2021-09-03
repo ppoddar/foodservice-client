@@ -1,0 +1,80 @@
+{{! an editable view of the item }}
+<table style='width:100%''>
+    <tr>
+        <td width=20%><label for='#item-sku'><strong>SKU</strong></label></td>
+        <td width=70% id='item-sku'>{{sku}}</td>
+    </tr>
+
+    {{! input value must enclose in single quote because tokens may contain spaces }}
+    <tr>
+        <td width=20%><label for='#item-name'><strong>Name</strong></label></td>
+        <td><input id='item-name' type='text' size="40" value='{{name}}'></td>
+    </tr>
+
+    <tr>
+        <td width=20%><label for='#item-short-name'><strong>Short name</strong></label></td>
+        <td><input id='item-short-name' type='text' size="40" value='{{short-name}}'></td>
+    </tr>
+
+    <tr>
+        <td width='20%'><label for='#item-price'><strong>Price</strong></label></td>
+        <td width='20%'><input id='item-price' type='number' min="10" value={{price}} style='width:8em;text-align:center'></td>
+    </tr>
+    <tr>
+    <td width='20%'>
+            <input id='has-half' type='checkbox' {{has-half}}>
+            <label for='#has-half'>half</label>
+        </td>
+        <td width='20%'><input id='item-half-price' type='number' min="10" value={{half-price}} style='width:8em;text-align:center'></td>
+    </tr>
+    <tr>
+        <td width='20%'><label for='#item-short-description'>Short description</label></td>
+        <td width='70%'><input id='item-short-description' value='{{short-description}}' 
+                size='40'></td>
+    </tr>
+    <tr>
+    <td width='20%'><label for='#item-long-description'>Description</label></td>
+    <td>
+        <textarea id='item-long-description' cols=40 rows=4 style='vertical-align:middle'> 
+        {{long-description}}
+        </textarea>
+    </td>   
+    </tr>
+
+    <tr>
+    <td width=40%><label for='#item-categories'>Categories</label>
+    <select id='item-category-choices'>
+        {{#category-choices}}
+            <option id={{id}}>{{label}}</option>
+        {{/category-choices}}
+    </select>
+    </td>
+    <td  width="50%" class='w3-tooltip'>
+        <input type="text" id='item-categories' readonly>
+        <div class='w3-text w3-small w3-animate-opacity w3-text-white w3-border'>
+            <p style='position:absolute;left:0;top:18px;background-color:#444444'>an item can be in more than one category</p>
+        </div>
+    </td>
+</tr>
+</table>
+
+
+ {{! ----------------- error message block ---------------- }}
+<div id='error' style='width=100%;overflow:hidden;padding-left:1em;' class='w3-hide'>
+    <div style='float:left;padding:0;'>
+        <span class='material-icons' style='color:red;font-size:16pt;'>error</span>
+    </div>
+    <div id='message' style='margin-left:24px' class='w3-text-red'>
+        {{! set at runtime }}
+    </div>
+</div>
+{{! ----------------------------------------------------- }}
+
+<script type='module'>
+    $('#add-image').on('click', function() {
+        new ItemImage().open(function() {
+            
+        })
+    })
+
+</script>

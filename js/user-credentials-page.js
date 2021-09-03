@@ -16,7 +16,6 @@ class UserCredentialsPage extends WizardPage {
      * @returns a dictionary
      */
     collect() {
-        
         var name  = this.$dialog.find('#user-name').val()
         var pwd   = this.$dialog.find('#user-password').val()
         var email = this.$dialog.find('#user-email').val()
@@ -29,9 +28,12 @@ class UserCredentialsPage extends WizardPage {
         return result
     }
     /**
-     * validates the input values in the given form.
-     * If not valid, prints the error in the form itself
-     * @param {*} $form 
+     * validates the input values on this dialog.
+     * If not valid, prints the error in the form itself.
+     * This only performs only client-side validation.
+     * If the server operation fails, a diffeernt route would
+     * show the failure.
+     *  
      * @returns true if valid, false otherwise
      */
     validate( ) {
@@ -42,27 +44,21 @@ class UserCredentialsPage extends WizardPage {
         var email = this.$dialog.find('#user-password-email').val()
         var use_email_as_name = this.$dialog.find('#use-email-as-name').is(':checked')
         //console.log(`form name=[${name}] use_email_as_name=${use_email_as_name}`)
-        var $error = $e(this.$dialog,'#error-message')
         //console.log(`found ${$error.length}`)
         if (name == undefined && !use_email_as_name) {
-            console.error(`name (or email) must be filled up`)
-            $error.text(`name (or email) must be filled up`)
+            this.show_error(`name (or email) must be filled up`)
             return false
         }
         if (USER_NAME_RESERVED.includes(name) && !use_email_as_name) {
-            var msg = `can not use [${name}] as user name. Choose a different name`
-            console.error(msg)
-            $error.text(msg)
+            this.show_error(`[${name}] as user name is reserved. Please choose a different name`)
             return false
         }
         if (!pwd) {
-            console.error('password can not be empty')
-            $error.text(`password can not be empty`)
+            this.show_error('password can not be empty')
             return false
         }
         if (pwd != pwd2) {
-            console.error(`passwords do not match`)
-            $error.text(`passwords do not match`)
+            this.show_error(`passwords do not match`)
             return false
         }
              

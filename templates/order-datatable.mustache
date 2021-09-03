@@ -1,0 +1,27 @@
+{{! datatable must have its data in tbody rows }}
+{{! the data for this template must come as an array in 'rows' property }}
+{{! each order will render as a table row. The CSS custmozation is done }}
+{{! when DataTable is initialized. }}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>When</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {{#rows}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{user}}</td>
+                <td>{{total}}</td>
+                <td>{{status}}</td>
+                <td>{{created_at}}</td>
+            </tr>
+        {{/rows}}
+    </tbody>
+</table>

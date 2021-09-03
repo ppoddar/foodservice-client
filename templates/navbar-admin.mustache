@@ -1,0 +1,52 @@
+{{! navigation bar for admin }}
+
+<div id='#navbar' class='w3-bar'>
+    <div id='home' class='w3-bar-item w3-left'>
+        <object type="image/svg+xml" with="48px;" height="48px;" data='./images/logo.svg'>
+            </object>
+    </div>
+
+    {{#items}}
+        <div class='w3-dropdown-hover'>
+            <div class='w3-bar-item section'>{{label}}
+            </div>
+            <div class='w3-dropdown-content w3-bar-block'>  
+                {{#dropdown}}
+                    <a class='dropdown-item' 
+                        id={{id}} 
+                        href='{{href}}' 
+                        style='text-decoration:none;'
+                        class='w3-bar-item w3-button'>{{label}}</a>
+                    <br> 
+                {{/dropdown}}
+            </div>
+        </div>
+        
+    {{/items}}
+    <div id='settings' class='w3-bar-item w3-right'>Settings</div>
+    <div id='user'     class='w3-bar-item w3-right'>Users</div>
+</div>
+
+<script type='text/javascript'>
+    $('#home').on('click', function() {
+        window.location = 'index.html'
+    })
+    /* activate a section by clicking the navbar
+     * Load corresponding section on the main div area
+     * switch to active color for the navbar 
+     */
+    $('.dropdown-item').on('click', function(e) {
+        var id   = $(this).attr('id')
+        var href = $(this).attr('href')
+        console.log(`loading dropdown item [${id}] from ${href} ...`)
+        var activeColor   = 'w3-text-blue'
+        var $section      = $(this).closest('.section')
+        $('#main').load(href, function(){
+            $('.section').removeClass(activeColor) 
+            $section.addClass(activeColor)
+        })
+        
+        // prevent default event behavior
+        return false
+    })
+</script>

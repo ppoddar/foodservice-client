@@ -1,18 +1,24 @@
 var TEMPLATE = 'templates/lineitem.mustache'
-const MAX_NAME_LENGTH = 18
 
 /**
  * creates a line item from an item.
  * The name of the line item is either the name of the item or, if its longer, 
  * then the short name.
  * The item sku and price are also properties of a line item. 
+ * 
+ * // TODO: short name
  */
 class LineItem {
-    constructor(item, quantity) {
+    constructor(data) {
+        var item      = data['item']
         this.sku      = item.sku
-        this.name     = item.name
+        this.name     = item.short_name
         this.price    = item.price
-        this.quantity = quantity
+        this.quantity = 'quantity' in data ? data['quantity'] : 1
+        this.half     = 'half' in data ? data['half'] : false
+        if (half) {
+            this.price = item.half_price
+        }
     }
     /**
      * converts this lineitem to a dictionary useful for ajax payload.
@@ -26,7 +32,7 @@ class LineItem {
         result['quantity']   = this.quantity;
         result['price']      = this.price
         // the dict property for a line item has 'cost' 
-        // because Mustache template does not have to calculate 
+        // because Mustache template can not and does not have to calculate 
         result['cost']       = Number(this.price * this.quantity).toFixed(2)
 
         return result

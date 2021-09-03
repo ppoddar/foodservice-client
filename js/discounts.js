@@ -3,7 +3,14 @@ const TEMPLATE = 'templates/discount-dialog.mustache'
 const DISCOUNT_GROUP = 'discount_group'
 const SERVER_URL="http://localhost:8000"
 
-class DiscountManager {
+/**
+ * A viewcontroller for all discounts
+ */
+class Discounts {
+    constructor(data) {
+        console.log(`initializing discounts from ${data.length} discounts`)
+
+    }
     /**
      * fetch all discounts and applies the view template to raise 
      * a dialog
@@ -14,7 +21,7 @@ class DiscountManager {
      */
     fetch(cb) {
         var _this = this
-        var url = '${SERVER_URL}/billing/discounts/'
+        var url = '${SERVER_URL}/bill/discounts/'
         //console.log(`DiscountManager ${url}`)
         $.ajax({
             url: url,
@@ -62,7 +69,7 @@ class DiscountManager {
     }
 }
 
-export default DiscountManager
+export default Discounts
 
 
 /*

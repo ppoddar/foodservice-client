@@ -289,8 +289,8 @@ class User {
                 })
             
         } else {
-            console.log(`no credentials [${this}] for not autologin`)
-            this.render() // will set the dropdown menu action handlers
+            //console.log(`no credentials [${this}] for not autologin`)
+            //this.render() // will set the dropdown menu action handlers
             return
         }
         

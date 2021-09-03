@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- an utility to visualize a Mustache template -->
+<head>
+    <title>Template Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+
+</head>
+<body style="margin:2em;">
+    <h1>Mustache Template </h1>
+    <label for='template-name'>Template</label>
+    <input id='template-name' type='text' placeholder="Mustache template file name"><br>
+    <p></p>
+    <label for="data">json to be rendered in the template</label><br>
+
+    <div style='width:100%;overflow: hidden;'>
+        <div style="width:50%;float:left;text-align: center;margin: auto;">
+            <textarea id="data" cols="40" rows="12" class="w3-text-grey" ></textarea>
+            <button id='render'>Render</button>
+        </div>
+        <div id='test' class='w3-border' style="float:right;width:50%"> 
+
+        </div>
+    </div>
+
+
+    <script>
+        $('#render').on('click', function() {
+            var template_name = $('#template-name').val()
+            console.log(`template name ${template_name}`)
+
+            var jsonText = $('#data').val()
+            console.log(`data [${jsonText}]`)
+
+            var data = JSON.parse(jsonText)
+            //console.log(`data to render [${JSON.stringify(data)}]`)
+
+            $('#test').load(template_name, function() {
+                var template = $(this).html()
+                var html = Mustache.render(template,data)
+                $('#test').html(html)
+            })
+        })
+        
+
+    </script>
+</body>

@@ -1,0 +1,49 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <title>Hiraafood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='../js/hiraafood.js'></script>
+    <link href="../css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td>Phone number</td>
+            <td > <input type='phone' id='phone'> </td>
+        </tr>
+        <tr>
+            <td>OTP</td>
+            <td> <input type='text'> </td>
+        </tr>
+
+    </table>
+
+
+<script type="module">
+    var otp = '123456'
+    var SERVER_URL = 'http://localhost:8000'
+    $('#phone').on('keyup', function(e) {
+        if (e.keyCode != 13) return
+        var phone = $(this).val()
+        console.log(`phone number ${phone}`)
+        $.ajax({
+            url: `${SERVER_URL}/user/send_otp/${otp}/${phone}`,
+            success: function(response) {
+                console.log(JSON.stringify(response))
+            }
+        })
+    })
+
+</script>    
+</body>
+
+</html>

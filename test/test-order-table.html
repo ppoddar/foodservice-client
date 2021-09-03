@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hiraafood Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src='js/hiraafood.js'></script>
+    <link href="css/hiraafood.css" rel="stylesheet" >
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <table id='order-table'></table>
+
+    <script type="module">
+        import OrderTable           from './js/order-table.js'
+
+        var orders = [
+        {'id':'abcd', 'user':'guest', 'total':12.00, 'status':'NEW', "created_at":"2021-08-06 23:51:55.253883+05:30"},
+        {'id':'abcd', 'user':'guest', 'total':20.00, 'status':'OLD', "created_at":"2021-08-06 23:51:55.253883+05:30"}
+        ]
+        new OrderTable().render($('#order-table'), orders)
+        
+    </script>
+
+</body>
+</html>
+

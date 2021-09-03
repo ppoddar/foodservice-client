@@ -1,13 +1,15 @@
 var KEY_ADDRESS ='address'
 var SERVER_URL = 'http://localhost:8000'
+/**
+ * An address is a view controller. It renders as a radio button with a tooltip text.
+ * It can open a dialog to create new address.
+ */
 class Address {
     constructor(data) {
-        //console.log(`${this.constructor.name} constructor with ${Object.keys(data)}`)
         assertKeys(data, ['id', 'owner', 'name', 'line1', 'city', 'pin'])
         this.init(data)
     }
     init(data) {
-        //console.log(`Address.init() with ${Object.keys(data)}`)
         if (data) {
             this.id     = data['id']
             this.owner  = data['owner']
@@ -21,12 +23,14 @@ class Address {
             this.direction = data['direction']
         }
     }
+
     /**
      * Saves the id of this address on session storage
      */
     save() {
         window.sessionStorage.setItem(KEY_ADDRESS, this.id)
     }
+
     /**
      * gets the id of an address from sessin storage
      */
@@ -55,13 +59,19 @@ class Address {
     }
 
     /**
-     * Opens a dialog to create a new address
+     * Opens a dialog to create a new address.
+     * @param {AddressGroup} the group on behalf of which an addrrs is being created.
+     * The callback function provided will be called on this group with new address
+     * as its argument
+     * @param {Dictionary} this dictionary is extended with all collected data by
+     * the dialog
+     * 
      */
-    static openCreateDialog(group, data) {
+    static openCreateDialog(group, data, cb) {
         // this function will be called when dialog is OK'ed
         var createAddress = function() {
             var formInput = {
-                'name'  : $(this).find('#address-name').val(),
+                'label' : $(this).find('#address-label').val(),
                 'line1' : $(this).find('#address-line1').val(),
                 'line2' : $(this).find('#address-line2').val(),
                 'city'  : $(this).find('#address-city').val(),
@@ -71,7 +81,6 @@ class Address {
                 'direction' : $(this).find('#address-direction').val()
             }
             try {
-
                 assertKeys(formInput, ['name', 'line1', 'city', 'pin'], true) // the owner has been added before
             } catch (err) {
                 console.log(err)
@@ -88,17 +97,16 @@ class Address {
                 contentType: 'applicaton/json',
                 success: function(response) {
                     console.log(`${url} response ${JSON.stringify(response)}`)
-                    // reinitialize the address from server response which is an array of addresses
+                    // initialize the address from server response which is an array of addresses
                     if (response['status'] != 200) {
-                        openWarningDialog({'title':'Error adding address', 
-                            'message': response['message']})
-                        return
+                        openWarningDialog('Error new address', response['message'])
+                    } else {
+                        var addr = new Address(response['data'])
+                        if (typeof(cb) == 'function') {
+                            cb.call(group, addr)
+                        }
+                        
                     }
-                    var addr = new Address(response['data'])
-                    // add the address to its group at the beginning 
-                    group.addAddress(addr, true)
-                    // ask the group to redraw itself
-                    group.refreshDisplay()
                 }
             }) 
             $(this).closest('.ui-dialog-content').dialog('close'); 

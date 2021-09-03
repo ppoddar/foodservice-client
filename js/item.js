@@ -22,9 +22,12 @@ class Item {
         this.sku         = fromDict(data,'sku')
         this.name        = fromDict(data,'name')
         this.short_name  = fromDict(data,'short_name', '')
+        if (!this.short_name || this.short_name.trim()=='') this.short_name = this.name
         this.short_description = fromDict(data, 'short_description', '')
         this.long_description  = fromDict(data, 'long_description', '')
         this.price       = fromDict(data,'price')
+        this.has_half    = 'half_price' in data && fromDict(data, 'half_price') > 0.0
+        this.half_price  = fromDict(data,'half_price', 0.0)
         this.ratings     = fromDict(data,'ratings', 3)
         this.image       = fromDict(data,'image', NO_IMAGE)
         var categories   = fromDict(data,'categories', '')
@@ -34,19 +37,26 @@ class Item {
     }
 
     /**
-     * 
+     * Converts state of this item into a dictionary. Used to render it
+     * in a template. The Mustache template is logic-less. Hence, all
+     * decisions (such as wherther half plate price is available) are
+     * made via this dictionary
      * @returns converts to a dictionary.
      */
     toDict() {
         return {
-            'sku' : this.sku,
-            'name': this.name,
-            'short_description': this.short_description,
-            'long_description': this.long_description,
-            'price': this.price,
+            'sku' :         this.sku,
+            'name':         this.name,
+            'short-name':   this.short_name,
+            'short-description':    this.short_description,
+            'long-description':     this.long_description,
+            'price':        this.price,
+            'has-half':     this.has_half ? 'checked' : '',      
+            'half-price':   this.half_price,
             // Important: add the STATIC_URL here 
-            'image' : `${STATIC_URL}/${this.image}`,
-            'categories':this.categories
+            'image' :       `${STATIC_URL}/${this.image}`,
+            // categories is shown as space-separated string
+            'categories':   this.categories.join(' ')
         }
     }
     
@@ -105,38 +115,39 @@ class Item {
      * @retunrs a jQuery element.  
      */
     applyTemplate(template) {
-        var $item = $('<div>')
+        this.$view = $('<div>')
         var html = Mustache.render(template, this.toDict())
-        $item.html(html)
+        this.$view.html(html)
         var $ratings = new Ratings(this.ratings).render()
-        $item.find('#ratings').first().append($ratings)
-        $item.data('item', this)
+        this.$view.find('#ratings').first().append($ratings)
+        this.$view.data('item', this)
 
         // the template must define two elements with id 'order-button' and 'item-quantity'
         // a single click of 'order-button' will add to a lineitem to the cart
         // update the cart
-        $item.find('#order-button').on('click', (e) => {
-            var quantity = $item.find('#item-quantity').val()
-            var item = $item.data('item')
-            var lineitem = new LineItem(item, quantity)
+        this.$view.find('#order-button').on('click', (e) => {
+            var lineitem = new LineItem({
+                'item'    : this.$view.data('item'), 
+                'quantity': $e(this.$view,'#item-quantity').val(),
+                'half'    : $e(this.$view, '#half-plate').is(':checked')})
             Cart.instance().addLineItem(lineitem)
         }) 
-        $item.find('#item-quantity').on('dblclick', function(e) {
+        this.$view.find('#item-quantity').on('dblclick', function(e) {
             e.preventDefault()
             e.stopPropagation()
             return false
         })
-        $item.on('click', function(e){
+        this.$view.on('click', function(e){
             e.preventDefault()
             e.stopPropagation()
             return false
         })
-        $item.on('dblclick', function(e) {
+        this.$view.on('dblclick', function(e) {
             var item = $(this).data('item')
             new OrderForm(item).open()
             return false
         })
-        return $item
+        return this.$view
     }
 
     parseAsArray(names) {
@@ -153,6 +164,12 @@ class Item {
             result.push(name)
         }
         return result
+    }
+
+    changeQuantity(q) {
+        if (this.$view) {
+            $e(this.$view, '#item-quantity').val(q)
+        }
     }
 }
 

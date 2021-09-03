@@ -1,0 +1,30 @@
+<div>
+    <ul style="list-style: none;">
+        <li class='w3-margin'><button id='create-item'>Create a new item</button>
+        <li class='w3-margin'><button id='upload-item'>Upload item(s)</button>
+        <li class='w3-margin'><button id='view-item'>View items</button>
+    </ul>
+</div>
+<script type="module">
+    import ItemCreate from '../js/item-create.js'
+    import ItemUpload from '../js/item-upload.js'
+    //import ItemView   from '../js/item-view.js'
+    
+    $('#create-item').on('click', createItem)
+    $('#upload-item').on('click', uploadItem)
+    $('#view-item').on('click', viewItem)
+
+    function createItem() {
+        new ItemCreate().open()
+    }
+
+    function uploadItem() {
+        new ItemUpload().open()
+    }
+
+    function viewItem() {
+        //new ItemViewDialog().open()
+    }
+        
+</script>
+

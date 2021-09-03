@@ -1,0 +1,23 @@
+{{! ----------- Item table ----------- }}
+<table class='w3-tabel-all'>
+    <thead>
+    <tr>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Price</th>
+        {{! edit column }}
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#items}}
+        <tr>
+            <td id='item-sku'>{{sku}}</td>
+            <td>{{name}}</td>
+            <td>{{price}}</td>
+            <td><span class='material-icons edit-button'
+                style='font-size:8pt;'>edit</span></td>
+        </tr>
+        {{/items}}
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+<h3>Select by price </h3>
+<table>
+    <td>Minimum</td> <td><input type='number' style='width:8em;'> </td>   
+    <td>Maximum</td> <td><input type='number' style='width:8em;'> </td>
+</table>
+<h3>Select by category </h3>
+{{#categories}}
+    <input id={{id}} type='checkbox'>
+    <label for={{id}}>{{label}}</label> 
+{{/categories}}

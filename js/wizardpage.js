@@ -1,6 +1,9 @@
 /**
  * A page in a series of pages managed by an wizard.
  */
+// TODO: LOGO_URL
+var LOGO_URL = 'http://localhost:8000/static/logo.png'
+
 class WizardPage {
     /**
      * template*
@@ -32,6 +35,7 @@ class WizardPage {
         var _this = this
         if (this.template) {
             var data = Object.assign(this.toDict(), parameters || {})
+            data['logo'] = LOGO_URL
             $.get(this.template, function(template){
                 var html = Mustache.render(template, data)
                 _this.$dialog.html(html)
@@ -65,7 +69,7 @@ class WizardPage {
     }
 
     validate() {
-        //console.log(`validate ${this.constructor.name}...`)
+        this.clear_error()
         return true
     }
 
@@ -88,6 +92,18 @@ class WizardPage {
 
     close() {
         this.$dialog.closest('.ui-dialog-content').dialog('close')
+    }
+
+    clear_error() {
+        var $error = $e(this.$dialog,'#error')
+        $error.addClass("w3-hide")
+    }
+    show_error(message) {
+        var $error = $e(this.$dialog,'#error')
+        console.error(message)
+        $e($error, "#message").html(message) 
+        $error.removeClass("w3-hide")
+        this.$dialog.effect("shake", { times: 5 }, 100);
     }
 }
 export default WizardPage

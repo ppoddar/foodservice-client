@@ -38,6 +38,8 @@ class Order {
      * 
      * @param {*} $div 
      */
+    
+    /*
     render($div) {
         console.log(`rendering ${JSON.stringify(this)}`)
         $e($div, '#order-id').text(`Order ${this.id}`)
@@ -48,21 +50,10 @@ class Order {
         // $div.find('#order-time').text(diff + " seconds ago")
 
         var _this = this
-        $e($div, '#discount-button').on('click', function() {
-            new DiscountManager().fetch(function(code) {
-                console.log(`order is associated with discount code [${code}]`)
-                _this.discount_code = code
-                $e($div, '#discount-code').text(code)
-            })
-        })
-        $e($div, '#checkout-button').on('click', function(){
-            _this.checkout(function(bill) {
-                bill.render()
-            })
-        })
+        
             
     }
-
+    */
     toString() {
         return `order ${this.id} for ${this.user}`
     }

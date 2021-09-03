@@ -1,28 +1,41 @@
 <!DOCTYPE html5>
 <head>
     <title>Hiraafood</title>
+    <base href=".."/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--             jQuery              -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/sunny/jquery-ui.min.css" integrity="sha512-t/yl85emxwarY4DzF8RUddWA+01SUMtURTPNve/zvFnzmor8mM2TMu2tWff/SdeXOEyrmenasu2R2/UEeDE+pw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/sunny/theme.min.css" integrity="sha512-D7I8i+5c8pBasr1IqvyTFr6wQFHKXJ9XWlij0Y3W9zBjofUcXY24dLaGJI8zLe252GhHuH6L6PvWKXGGrkA4DQ=="     crossorigin="anonymous" referrerpolicy="no-referrer" />   
+    <!--             Mustache              -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <!--             hiraafood              -->
     <script src='js/hiraafood.js'></script>
     <link href="css/hiraafood.css" rel="stylesheet" >
+    <!--             w3.css              -->
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" >
+    <!--             Google              -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script>
+        // prepends server URL to all ajax before send.
+        // The code must maintain the discipline of all resource request begins with '/' 
+        // If the url does not begin with '/' it remains unchanged  
         $().ready(function() {
+            console.log('-------------- ajax setup --------------')
             var SERVER_URL = 'http://localhost:8000'
             $.ajaxSetup({
-                beforeSend: function(jqXHR, settings) {
-                    settings.url = `${SERVER_URL}/${settings.url}`
+                beforeSend: function (jqXHR, settings) {
+                    console.log(`---------- url ${settings.url}`)
+
+                    if (settings.url.startsWith('/'))
+                        settings.url = `${SERVER_URL}${settings.url}`
                 }
-            })
-
-    })
+            }) 
+        })
     </script>
-
     
     <script type="module">
         
@@ -44,7 +57,7 @@
             loadTemplate($('#menu'), 'templates/menu.mustache', {}, function() {
                 Menu.instance(function(menu) {
                     menu.render($e($('body'), '#menu'))
-                    loadTemplate($('#order'), 'templates/order.mustache', {}, function() {
+                    loadTemplate($('#order'), 'templates/cart.mustache', {}, function() {
                         var order = new Order()
                         // order is initailly placed on behalf of current user
                         // the user may not yet be authenticated
@@ -53,7 +66,7 @@
                             var cart  = Cart.instance()
                             cart.order = order
                             // cart renders at two divs. one for the icon other for the details
-                            cart.render($('#cart'), $('#order'))
+                            cart.render()
                         })
                     })
                 })

@@ -2,6 +2,9 @@ button {
   background-color: #FFCC00;
   border-radius: 8px;
 }
+/*
+ * makes the spinner controls visible
+ */
 input[type=number]::-webkit-inner-spin-button {
   opacity: 1
 }
@@ -18,24 +21,53 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 
-
+/*
+ */
 .w3-bar {
   background-color: #000000;
 }
 .w3-bar-item {
   color: #FFFFFF;
 }
+/*
+ * 
+ */
+
+
 .w3-display-middle {
   background-color: #F7FD04;
   color: #FC5404;
   font-size: 4em;
   margin: auto;
   text-align: center;
+}
 
+.colored-section {
+  width:16em;
+  height: 8em;
+  line-height: 8em;
+  text-align: center;
+  background-color: #FC5404;
+  color: #F7FD04;
+  font-size: 1em;
+  color: #fff;
+  margin: auto;
+  
+  margin-bottom: 2em;
+
+}
+.w3-display-bottommiddle {
+}
+
+.w3-display-bottomleft {
+  margin-left: 2em;
+}
+.w3-display-bottomright {
+  margin-right: 2em;
 }
 
 .w3-circle {
-  width: 80px;
+  width:  80px;
   height: 80px;
 }
 

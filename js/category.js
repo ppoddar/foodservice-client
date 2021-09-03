@@ -1,33 +1,21 @@
 /**
  * a client-side model object of a category of food item
  */
- const DEFAULT_CATEGORY = "Other"
- const DEFAULT_ICON     = "restaurant_menu"
- const NAME_TO_LABEL = {
-    'chicken': 'Chicken',
-    'fish'   : 'Fish',
-    'mutton' : 'Mutton',
-    'veg'    : 'Vegetarian',
-    'side'   : 'Sides',
-}
-const NAME_TO_ICON = {}
-const ICON_EXPAND_MORE = 'expand_more'
-const ICON_EXPAND_LESS = 'expand_less'
+ 
+
 class Category {
-    static ORDER = ['chicken', 'fish', 'mutton', 'veg', 'side']
-    static getLabelForName(name) {
-        return NAME_TO_LABEL[name]
-    }
+    
     /**
-     * a category has identifer name and label. The label is used for visual repreentaion.
-     * A fixed set of mapping exists from name->label.
+     * a category has id and label. The label is used for visual repreentaion.
      * 
-     * @param {name} identifier of the category 
+     * @param {string} id identifier of the category 
+     * @param {string} label label of the category 
+     * @param {string} licon icon of the category  (optional)
      */
-    constructor(name) {
-        this.name  = name
-        this.label = name in NAME_TO_LABEL ? NAME_TO_LABEL[name] : DEFAULT_CATEGORY
-        this.icon  = name in NAME_TO_ICON  ? NAME_TO_ICON[name] : DEFAULT_ICON
+    constructor(data) {
+        this.id    = data['id']
+        this.label = 'label' in data ? data['label'] : this.id
+        this.icon  = 'icon'  in data ? data['icon'] :  ''
         this.items = []
     }
 
@@ -95,7 +83,7 @@ class Category {
     
 
     toString() {
-        return `Category: ${this.label} [${this.name}] (${this.items.length} items)` 
+        return `Category: ${this.id} [${this.label}]` 
     }
 
 }

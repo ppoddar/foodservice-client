@@ -1,18 +1,25 @@
 import Address from "./address.js"
 
-var ADDRESSGROUP_NAME = 'address-group'
 /**
  * An address group may have zero or more addresses all belonging
  * to the same user/owner.
+ * The address group is rendered as a Radio Group. Each button in 
+ * the group shows the label of the address. The tooltip on the
+ * button shows the address in detail.
+ * User selects an address or creates a new address, that becomes
+ * member of the group.
+ * The first button on the group is checked by default.
  */
-class AddressGroup {
+
+ var ADDRESSGROUP_NAME = 'address-group'
+ class AddressGroup {
     /**
      * create an AddressGroup from given dictionary.
      * The dictionary must contain following keys
      *    owner     -- name of the user whose address are in this group
      *    addresses -- an array of addresses that can be empty
      * A group is displayed as a series of radio buttons. The radio button
-     * shows an address name. A tooltip text on each button shows the 
+     * shows an address label. A tooltip text on each button shows the 
      * details of the corresponding address.
      * 
      * @param {*} data a dictionary
@@ -34,7 +41,6 @@ class AddressGroup {
      * used to construct an address.
      */
     init(data) {
-        //assertKeys(data, ['owner', 'addresses'])
         this.owner = data['owner']
         var addrs  = data['addresses'] || []
         for (var i = 0; i < addrs.length; i++) {
@@ -44,7 +50,7 @@ class AddressGroup {
     }
     /**
      * converts this group to a dictionary for use in a template
-     * i.e. the states that are being rendered.
+     * i.e. the states that are to be rendered.
      * 
      * @returns a dictionary with  
      *  'group_name' : string becuase all buttons in a radio group must share
@@ -61,7 +67,7 @@ class AddressGroup {
     /**
      * adds the address at the beginning or end of the array of items in this group.
      * The first address in the group is always checked. When a new address is
-     * add
+     * added it is prepended, otherwise addresses are appended.
      * @param {Address} addr an address object to be added 
      * @param {boolean} prepend true if the address is added in the fron to the group.
      * Defaults to false.
@@ -88,10 +94,13 @@ class AddressGroup {
             _this.$choices = $($div, '#address-choices')
             var $addAddressButton = $e($div, '#add-new-address')
             $addAddressButton.on('click', function() {
-                //console.log(`[${$(this).attr('id')}] clicked`)
-                // only the owner of the new address and its parent group is set. 
-                // Rest will be set in the opened dialog itself. 
-                Address.openCreateDialog(_this, {'owner':_this.owner})
+                // only the owner of the new address is set. 
+                // Properties of the address will be set in the opened dialog itself. 
+                Address.openCreateDialog(_this, {'owner':_this.owner}, function(addr) {
+                    // prepend the new address and refresh view
+                    _this.addAddress(addr, true)
+                    _this.refreshDisplay()
+                })
             })
         })
     }
@@ -99,19 +108,22 @@ class AddressGroup {
     /**
      * Finds the address by given label
      * @param {String} label 
-     * @returns an Address object or null
+     * @returns an Address object
+     * @exception if the address can not be found
      */
     findAddressByLabel(label) {
         //console.log(`findAddressByLabel ${label} in ${this.group.length} addresses`)
         for (var i = 0; i < this.group.length; i++) {
             var addr = this.group[i]
-            console.log(`{i} ${addr.name}`)
+            //console.log(`{i} ${addr.name}`)
             if (addr.name == label) {
                 //console.log(`return ${JSON.stringify(addr)}`)
                 return addr
             }
         }
+        throw `no address found by label ${label} in this group`
     }
+
     /** 
     * refresh the view with the remembered 'real estate'
     */
@@ -132,14 +144,22 @@ class AddressGroup {
         }
     }
 
+    /**
+     * seraches through the addresses of this group to find the address
+     * with the label of the checked radio button.
+     * @returns an address object
+     */
     getSelectedAddress() {
         // next to the selected address appears the label
         var selector = `input[name=${ADDRESSGROUP_NAME}]:checked`
         var $selected = $(selector).first()
-        var id = $selected.attr('id')
+        if ($selected.length == 0) {
+            console.error(`CSS selector ${selector} found no checked button in the radio group.`)
+        }
         //console.log(`${selector} selected ${$selected.length} element with id=[${id}]`)
-        //var $label = $selected.next('label').first()
-        var selected_address_label = id
+        // NOTE: assumption is that each radio button is sam eas the label of the address
+        // this assimption is fulfilled by the Mustache tempalte
+        var selected_address_label = $selected.attr('id')
         //console.log(`selected label ${$label.length} element. text=[${selected_address_label}]`)
         return this.findAddressByLabel(selected_address_label)
     }
